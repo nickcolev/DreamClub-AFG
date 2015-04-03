@@ -1,0 +1,57 @@
+<html><head>
+<meta name="viewport" content="width=device-width, initial-scale=1.1"/>
+<script type="text/javascript">
+function playCtrl() {
+	var btn = document.getElementById("ctrl");
+	if (btn.value == "Stop") {
+		Android.stop();
+		btn.value = "Play";
+	} else {
+		var f = document.getElementById("freq").value;
+		if (isNaN(f)) alert("Invalid frequency (Please use numbers only)");
+		else if (f < 1 || f > 15000) alert("Frequency should be between 1Hz and 15000Hz");
+		else if (Android.play(document.getElementById("freq").value))
+			btn.value = "Stop";
+	}
+	return false;
+}
+function setFreq(o,x) {
+	if (!x) x = "1";
+	document.getElementById("freq").value = parseInt(x) * parseFloat(o.innerText);
+}
+</script>
+<style type="text/css">
+a { text-decoration: none; color: #ffa; }
+body { background-color: #121; color: #ddb; font-family: sans-serif; }
+#ctrl, #freq { width: 70px; }
+#freq, td.n { text-align: right; }
+td.t { padding-left: 6px; }
+</style>
+</head>
+<body>
+
+<form onsubmit="return playCtrl()">
+ <table align="center">
+  <tr><td>Frequency</td><td><input id="freq" value="528"/></td></tr>
+  <tr><td>&nbsp;</td><td><input id="ctrl" type="submit" value="Play"/></td></tr>
+ </table>
+</form>
+
+<table align="center">
+ <tr><th colspan="2">Sample Frequencies</th></tr>
+ <tr><td class="n"><a href="#" onclick="setFreq(this)">528</a></td><td class="t">DNA repair</td></tr>
+ <tr><td class="n"><a href="#" onclick="setFreq(this)">1830</a></td><td class="t">Eyesight sharpen</td></tr>
+ <tr><td class="n"><a href="#" onclick="setFreq(this)">20</a></td><td class="t">Stiff shoulders</td></tr>
+ <tr><td class="n"><a href="#" onclick="setFreq(this,1000)">10K</a></td><td class="t">Multiple</td></tr>
+ <tr><td class="n"><a href="#" onclick="setFreq(this)">1234</a></td><td class="t">Breathe</td></tr>
+ <tr><td class="n"><a href="#" onclick="setFreq(this)">650</a></td><td class="t">Numbness</td></tr>
+ <tr><td class="n"><a href="#" onclick="setFreq(this)">727</a></td><td class="t">Wound healing</td></tr>
+ <tr><td class="n"><a href="#" onclick="setFreq(this)">47</a></td><td class="t">Healing and Regeneration</td></tr>
+ <tr><td class="n"><a href="#" onclick="setFreq(this)">646</a></td><td class="t">Hair</td></tr>
+ <tr><td class="n"><a href="#" onclick="setFreq(this)">465</a></td><td class="t">Teeth</td></tr>
+ <tr><td class="n"><a href="#" onclick="setFreq(this)">10.4</a></td><td class="t">Tumor benign</td></tr>
+ <tr><td class="n"><a href="#" onclick="setFreq(this)">9.19</a></td><td class="t">Stiff neck</td></tr>
+ <tr><td colspan="2"><a href="http://www.electroherbalism.com/Bioelectronics/FrequenciesandAnecdotes/CAFL.htm">more</a></td></tr>
+</table>
+
+</body></html>
