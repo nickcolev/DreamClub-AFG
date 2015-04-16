@@ -1,17 +1,16 @@
 <html><head>
 <meta name="viewport" content="width=device-width, initial-scale=1.1"/>
 <script type="text/javascript">
+var Android1 = {	// test/debug (change to 'Android' under Linux)
+	play : function() { console.log("Android.play()"); return true; },
+	stop : function() { console.log("Android.stop()"); }
+}
+var sleep;
 function playCtrl() {
-	var btn = document.getElementById("ctrl");
-	if (btn.value == "Stop") {
-		Android.stop();
-		btn.value = "Play";
+	if (document.getElementById("ctrl").value == "Stop") {
+		stop();
 	} else {
-		var f = document.getElementById("freq").value;
-		if (isNaN(f)) alert("Invalid frequency (Please use numbers only)");
-		else if (f < 1 || f > 15000) alert("Frequency should be between 1Hz and 15000Hz");
-		else if (Android.play(document.getElementById("freq").value))
-			btn.value = "Stop";
+		start();
 	}
 	return false;
 }
@@ -19,25 +18,50 @@ function setFreq(o,x) {
 	if (!x) x = "1";
 	document.getElementById("freq").value = parseInt(x) * parseFloat(o.innerText);
 }
+function setSleep() {
+	var o = document.getElementById("sleep");
+	if (o.value)
+		if (isNaN(o.value))
+			alert("Invalid sleep value (Please enter sleep time in seconds");
+		else
+			sleep = window.setTimeout(stop,1000*o.value);
+		    
+}
+function start() {
+	setSleep();
+	var f = document.getElementById("freq").value;
+	if (isNaN(f)) alert("Invalid frequency (Please use numbers only)");
+	else if (f < 1 || f > 15000) alert("Frequency should be between 1Hz and 15000Hz");
+	else if (Android.play(document.getElementById("freq").value)) document.getElementById("ctrl").value = "Stop";
+}
+function stop() {
+	Android.stop();
+	document.getElementById("ctrl").value = "Play";
+	if (sleep) window.clearTimeout(sleep);
+}
 </script>
 <style type="text/css">
 a { text-decoration: none; color: #ffa; }
 body { background-color: #121; color: #ddb; font-family: sans-serif; }
-#ctrl, #freq { width: 70px; }
+input.int { text-align: right; width: 2em; }
+#freq { width: 3em; }
 #freq, td.n { text-align: right; }
 td.t { padding-left: 6px; }
 </style>
 </head>
 <body>
 
-<form onsubmit="return playCtrl()">
+<center>
+<p><small>Frequency: <input id="freq" value="528"/> Hz &nbsp;<input id="ctrl" type="button" onclick="playCtrl()" value="Play"/></small></p>
+
+<!--form onsubmit="return playCtrl()">
  <table align="center">
   <tr><td>Frequency</td><td><input id="freq" value="528"/></td></tr>
   <tr><td>&nbsp;</td><td><input id="ctrl" type="submit" value="Play"/></td></tr>
  </table>
-</form>
+</form-->
 
-<table align="center">
+<table>
  <tr><th colspan="2">Sample Frequencies</th></tr>
  <tr><td class="n"><a href="#" onclick="setFreq(this)">528</a></td><td class="t">DNA repair</td></tr>
  <tr><td class="n"><a href="#" onclick="setFreq(this)">1830</a></td><td class="t">Eyesight sharpen</td></tr>
@@ -51,7 +75,11 @@ td.t { padding-left: 6px; }
  <tr><td class="n"><a href="#" onclick="setFreq(this)">465</a></td><td class="t">Teeth</td></tr>
  <tr><td class="n"><a href="#" onclick="setFreq(this)">10.4</a></td><td class="t">Tumor benign</td></tr>
  <tr><td class="n"><a href="#" onclick="setFreq(this)">9.19</a></td><td class="t">Stiff neck</td></tr>
- <tr><td colspan="2"><a href="http://www.electroherbalism.com/Bioelectronics/FrequenciesandAnecdotes/CAFL.htm">more</a></td></tr>
+ <tr><td class="n"><small><a href="http://www.electroherbalism.com/Bioelectronics/FrequenciesandAnecdotes/CAFL.htm">more</a></small></td><td></td></tr>
 </table>
+
+<p>Sleep in <input class="int" id="sleep" name="sleep" value="90"/> seconds</p>
+
+</center>
 
 </body></html>
