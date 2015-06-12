@@ -1,0 +1,6 @@
+a { text-decoration: none; color: #ffa; }
+body { background-color: #121; color: #ddb; font-family: sans-serif; }
+input.int { text-align: right; width: 2em; }
+#freq { width: 3em; }
+#freq, td.n { text-align: right; }
+td.t { padding-left: 6px; }
