@@ -1,11 +1,12 @@
 a		{ text-decoration: none; color: #ffa; }
 body	{ background-color: #121; color: #ffe; font-family: sans-serif; }
-button,
 input,
-select	{ text-align: right; vertical-align: middle; width: 6em; background-color: transparent; color: #ffffaa; }
-#freq	{ border: 0; margin: 0; padding: 0; width: 4em; font-size: 1.25em; font-weight: bold; }
-#ctrl	{ height: 2em; width: 4em; text-align: center; background-color: rgb(80,80,80); }
-#freq, td.n { text-align: right; }
-td	{ vertical-align: middle; }
-td.t	{ padding-left: 6px; }
-img		{ vertical-align: middle; }
+select	{ vertical-align: middle; }
+td		{ vertical-align: top; }
+th		{ text-align: left; }
+.n		{ text-align: right; }
+.w		{ width: 6em; }
+td.m	{ vertical-align: middle; }
+#freq	{ border: 0; background-color: transparent; color: #ffa; font-size: 175%; font-weight: bold; width: 3.75em; vertical-align: bottom; }
+.click	{ border: 1px solid #ffa; text-align: center; cursor: pointer; }
+.dark	{ background-color: #131; color: #ffa; }

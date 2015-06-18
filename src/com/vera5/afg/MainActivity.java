@@ -30,7 +30,6 @@ public class MainActivity extends Activity {
 		myWebView.setWebViewClient(new WebViewClient(){
 			@Override
 			public boolean shouldOverrideUrlLoading(WebView view, String url){
-Log.d("***", " ==> "+url);
 				view.loadUrl(url);
 				return true;                
 			}

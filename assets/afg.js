@@ -48,12 +48,13 @@ function start() {
 	var f = document.getElementById("freq").value;
 	if (isNaN(f)) alert("Invalid frequency (Please use numbers only)");
 	else if (f < 1 || f > 15000) alert("Frequency should be between 1Hz and 15000Hz");
-	else if (Android.play(f,localStorage.getItem("wave"))) document.getElementById("ctrl").innerText = "Stop";
+	else if (Android.play(f,localStorage.getItem("wave")))
+		document.getElementById("ctrl").src = "ic_action_stop.png";
 }
 
 function stop() {
 	Android.stop();
-	document.getElementById("ctrl").innerText = "Play";
+	document.getElementById("ctrl").src = "ic_action_play.png";
 	if (timer != null) { clearTimeout(timer); timer = null; }
 }
 
