@@ -1,38 +1,62 @@
-var Android1 = {	// test/debug (change to 'Android' under Linux)
-	play : function() { console.log("Android.play()"); return true; },
-	stop : function() { console.log("Android.stop()"); }
-}
-var sleep;
-function playCtrl() {
-	if (document.getElementById("ctrl").value == "Stop") {
-		stop();
-	} else {
-		start();
+if (!window.Android) {
+	var Android = {	// test/debug
+		play : function(f,w) { console.log("Android.play('f:',"+f+",'w:',"+w+")"); return true; },
+		stop : function() { console.log("Android.stop()"); }
 	}
+}
+
+var timer = null;
+
+function playCtrl() {
+	if (running())
+		stop();
+	else
+		start();
 	return false;
 }
-function setFreq(o,x) {
-	if (!x) x = "1";
-	document.getElementById("freq").value = parseInt(x) * parseFloat(o.innerText);
+
+function inFreq(o) {
+	localStorage.setItem("freq",o.value);
 }
+
+function setFreq(o) {
+	var m=1, s=o.innerText,
+		c = s.substring(s.length-1);
+	switch(c) {
+		case 'K':
+		case 'k':
+			m = 1000;
+			s = s.substring(0,s.length-1);
+			break;
+		case 'M':
+		case 'm':
+			m = 1000000;
+			s = s.substring(0,s.length-1);
+			break;
+		default:
+	}
+	var f = parseFloat(s) * m;
+	document.getElementById("freq").value = f;
+}
+
 function setSleep() {
-	var o = document.getElementById("sleep");
-	if (o.value)
-		if (isNaN(o.value))
-			alert("Invalid sleep value (Please enter sleep time in seconds");
-		else
-			sleep = window.setTimeout(stop,1000*o.value);
-		    
+	timer = setTimeout(stop,1000*parseInt(localStorage.getItem("sleep")));
 }
+
 function start() {
 	setSleep();
 	var f = document.getElementById("freq").value;
 	if (isNaN(f)) alert("Invalid frequency (Please use numbers only)");
 	else if (f < 1 || f > 15000) alert("Frequency should be between 1Hz and 15000Hz");
-	else if (Android.play(document.getElementById("freq").value)) document.getElementById("ctrl").value = "Stop";
+	else if (Android.play(f,localStorage.getItem("wave"))) document.getElementById("ctrl").innerText = "Stop";
 }
+
 function stop() {
 	Android.stop();
-	document.getElementById("ctrl").value = "Play";
-	if (sleep) window.clearTimeout(sleep);
+	document.getElementById("ctrl").innerText = "Play";
+	if (timer != null) { clearTimeout(timer); timer = null; }
+}
+
+function running() {
+	return (timer == null ? false : true);
 }

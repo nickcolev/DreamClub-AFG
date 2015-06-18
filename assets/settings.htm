@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html><head>
+<meta name="viewport" content="width=device-width"/>
+<link href="style.css" rel="stylesheet" type="text/css"/>
+<script src="afg.js" type="text/javascript"></script>
+<script type="text/javascript">
+function init() {
+	document.getElementById("sleep").value = localStorage.getItem("sleep");
+	document.getElementById("wave").value = localStorage.getItem("wave");
+}
+function back() {
+	// FIXME Add sanity check for the sleep seconds
+	localStorage.setItem("sleep",document.getElementById("sleep").value);
+	localStorage.setItem("wave",document.getElementById("wave").value);
+}
+</script>
+</head>
+<body onload="init()" onunload="back()">
+
+<table align="center">
+ <tr><td>Sleep:</td><td>
+	 <input
+		class="int"
+		id="sleep" name="sleep"
+		onclick="select()"
+		type="number"
+		value="90"/> <small>seconds</small></td></tr>
+ <tr><td>Wave:</td><td>
+	 <select id="wave">
+		 <option>Sine</option>
+		 <option>Square</option>
+		 <option>Triangle</option>
+		 <option>Sawtooth</option></select></td></tr>
+</center>
+
+</body></html>

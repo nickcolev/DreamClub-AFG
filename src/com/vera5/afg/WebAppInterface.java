@@ -23,7 +23,8 @@ public class WebAppInterface {
 		Toast.makeText(mParent, s, Toast.LENGTH_SHORT).show();
 	}
 
-    public boolean play(String freq) {
+    public boolean play(String freq,String wave) {
+Log.d("***", "wave="+wave);
 		boolean ok = false;
 		float f = 0;
 		try {
@@ -32,7 +33,7 @@ public class WebAppInterface {
 			Tooltip(e.getMessage());
 		}
 		if (f > 0) {
-			genTone(f);
+			genSine(f);
 			track.play();
 			ok = true;
 		}
@@ -45,7 +46,7 @@ public class WebAppInterface {
 		track = null;
 	}
 
-	void genTone(float freq) {
+	void genSine(float freq) {
 		// fill out the array
 		double angle = 0,
 			f = (2 * Math.PI) * freq / sampleRate;
