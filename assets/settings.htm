@@ -8,14 +8,19 @@ function init() {
 	document.getElementById("sleep").value = localStorage.getItem("sleep");
 	document.getElementById("wave").value = localStorage.getItem("wave");
 }
-function back() {
-	// FIXME Add sanity check for the sleep seconds
-	localStorage.setItem("sleep",document.getElementById("sleep").value);
+window.onunload = function(e) {
+	var sleep = document.getElementById("sleep").value;
+	if(isNaN(sleep)) sleep = localStorage.getItem("sleep");
+	localStorage.setItem("sleep",sleep);
 	localStorage.setItem("wave",document.getElementById("wave").value);
+}
+window.onbeforeunload = function(e) {
+	if(isNaN(document.getElementById("sleep").value))
+		return "Invalid 'Sleep' value\n(using default)";
 }
 </script>
 </head>
-<body onload="init()" onunload="back()">
+<body onload="init()">
 
 <table align="center">
  <tr><td>Sleep:</td><td>

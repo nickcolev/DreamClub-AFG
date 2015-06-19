@@ -8,5 +8,5 @@ th		{ text-align: left; }
 .w		{ width: 6em; }
 td.m	{ vertical-align: middle; }
 #freq	{ border: 0; background-color: transparent; color: #ffa; font-size: 175%; font-weight: bold; width: 3.75em; vertical-align: bottom; }
-.click	{ border: 1px solid #ffa; text-align: center; cursor: pointer; }
+.click	{ border: 1px solid #242; text-align: center; cursor: pointer; }
 .dark	{ background-color: #131; color: #ffa; }
