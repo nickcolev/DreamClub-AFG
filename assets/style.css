@@ -3,10 +3,11 @@ body	{ background-color: #121; color: #ffe; font-family: sans-serif; }
 input,
 select	{ vertical-align: middle; }
 td		{ vertical-align: top; }
-th		{ text-align: left; }
+td.m	{ vertical-align: middle; }
+th		{ font-size: 0.8em; text-align: left; }
 .n		{ text-align: right; }
 .w		{ width: 6em; }
-td.m	{ vertical-align: middle; }
-#freq	{ border: 0; background-color: transparent; color: #ffa; font-size: 175%; font-weight: bold; width: 3.75em; vertical-align: bottom; }
 .click	{ border: 1px solid #242; text-align: center; cursor: pointer; }
 .dark	{ background-color: #131; color: #ffa; }
+.small	{ font-size: 70%; }
+#freq	{ border: 0; background-color: transparent; color: #ffa; font-size: 175%; font-weight: bold; width: 3.75em; vertical-align: bottom; }

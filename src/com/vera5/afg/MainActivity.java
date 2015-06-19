@@ -30,8 +30,12 @@ public class MainActivity extends Activity {
 		myWebView.setWebViewClient(new WebViewClient(){
 			@Override
 			public boolean shouldOverrideUrlLoading(WebView view, String url){
-				view.loadUrl(url);
-				return true;                
+Log.d("***",url);
+				if(url.startsWith("http")) {
+					view.loadUrl(url);
+					return true;
+				}
+				return super.shouldOverrideUrlLoading(view,url);
 			}
 		});
 		// Load a HTML from assets
