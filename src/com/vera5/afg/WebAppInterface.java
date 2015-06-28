@@ -78,4 +78,25 @@ Log.d("***", "wave="+wave);
 		track.setLoopPoints(0, end, -1);
 	}
 
+	public String getSamleFrequencies() {
+		// FIXME Read these from db/cache/cookie/etc
+		return "100\tTest";
+	}
+
+	public String getUserFrequencies() {
+		// FIXME These could be in a resource
+		return "528\tDNA repair\n"
+			+ "1830\tEyesight sharpen\n"
+			+ "20\tStiff shoulders\n"
+			+ "10K\tMultiple\n"
+			+ "1234\tBreathe\n"
+			+ "650\tNumbness\n"
+			+ "727\tWound healing\n"
+			+ "47\tHealing and Regeneration\n"
+			+ "646\tHair\n"
+			+ "465\tTeeth\n"
+			+ "10.4\tTumor benign\n"
+			+ "9.19\tStiff neck";
+	}
+
 }

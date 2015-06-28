@@ -9,12 +9,44 @@ function init() {
 	if (!localStorage.getItem("sleep")) localStorage.setItem("sleep","90");
 	if (!localStorage.getItem("wave")) localStorage.setItem("wave","Sine");
 	document.getElementById("freq").value = localStorage.getItem("freq");
+	populateFrequencies();
+}
+function populateFrequencies() {
+	// User frequencies
+	var s = Android.getUserFrequencies();
+	var a = Array(), aRow = s.split("\n");
+	var htm = '';
+	var tr, tdLeft, tdRight;
+	var oTbody = document.getElementById("fUser");
+	for(var i=0; i<aRow.length; i++) {
+		a = aRow[i].split("\t");
+		tr = document.createElement("tr");
+		tdLeft = document.createElement("td");
+		tdLeft.innerText = a[0];
+		tdRight = document.createElement("td");
+		tdRight.innerText = a[1];
+		tr.appendChild(tdLeft);
+		tr.appendChild(tdRight);
+		oTbody.appendChild(tr);
+	}
+	/*
+	// Default frequencies
+	s = Android.getSamleFrequencies();
+alert(s);
+	aRow = s.split("\n");
+	htm = '';
+	for(var i=0; i<aRow.length; i++) {
+		a = aRow[i].split("\t");
+		htm += '<tr><td class="n"><a href="#" onclick="setFreq(this)">'+a[0]+'</a></td><td>'+a[1]+'</td></tr>';
+	}
+	document.getElementById("fSamp").innerHTML = htm;
+	*/
 }
 </script>
 </head>
 <body onload="init()">
 
-<table align="center" border="0">
+<table align="center" border="0" id="content">
  <tr>
   <td class="m"><a href="settings.htm"><img src="ic_action_settings.png"></a></td>
   <td class="m"><input class="n" id="freq" type="number" onclick="select()" onblur="inFreq(this)"/> Hz
@@ -22,19 +54,8 @@ function init() {
  </tr>
  <tr><td colspan="2">&nbsp;</td></tr>
  <tr><td>&nbsp;</td><th>Sample Frequencies</th></tr>
- <section id="sample">
- <!-- FIXME To be populated dynamically -->
- <tr><td class="n"><a href="#" onclick="setFreq(this)">528</a></td><td class="t">DNA repair</td></tr>
- <tr><td class="n"><a href="#" onclick="setFreq(this)">1830</a></td><td class="t">Eyesight sharpen</td></tr>
- <tr><td class="n"><a href="#" onclick="setFreq(this)">20</a></td><td class="t">Stiff shoulders</td></tr>
- <tr><td class="n"><a href="#" onclick="setFreq(this)">10K</a></td><td class="t">Multiple</td></tr>
- <tr><td class="n"><a href="#" onclick="setFreq(this)">1234</a></td><td class="t">Breathe</td></tr>
- <tr><td class="n"><a href="#" onclick="setFreq(this)">650</a></td><td class="t">Numbness</td></tr>
- <tr><td class="n"><a href="#" onclick="setFreq(this)">727</a></td><td class="t">Wound healing</td></tr>
- <tr><td class="n"><a href="#" onclick="setFreq(this)">47</a></td><td class="t">Healing and Regeneration</td></tr>
- <tr><td class="n"><a href="#" onclick="setFreq(this)">646</a></td><td class="t">Hair</td></tr>
- <tr><td class="n"><a href="#" onclick="setFreq(this)">465</a></td><td class="t">Teeth</td></tr>
- </section>
+ <tbody id="fUser"></tbody>
+ <tbody id="fSamp"></tbody>
  <tr>
   <td class="click" onclick="document.location='add.htm'"><img src="plus.png"/></td>
   <td align="right"><i><small><a href="http://www.electroherbalism.com/Bioelectronics/FrequenciesandAnecdotes/CAFL.htm">more frequencies &raquo;</a></small></i></td>

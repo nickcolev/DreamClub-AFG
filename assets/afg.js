@@ -1,7 +1,16 @@
 if (!window.Android) {
 	var Android = {	// test/debug
 		play : function(f,w) { console.log("Android.play('f:',"+f+",'w:',"+w+")"); return true; },
-		stop : function() { console.log("Android.stop()"); }
+		stop : function() { console.log("Android.stop()"); },
+		getSamleFrequencies: function() {
+			return "528\tDNA Repair\n"
+				+ "1830\tEysight sharpen\n"
+				+ "20\tStiff shoulders";
+		},
+		getUserFrequencies: function() {
+			return "727\tWound healing\n"
+				+ "47\tHealing and Regeneration";
+		}
 	}
 }
 
