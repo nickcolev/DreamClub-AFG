@@ -1,6 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
-<WebView  xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/webview"
-    android:layout_width="fill_parent"
-    android:layout_height="fill_parent"
-/>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+	>
+
+	<LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="wrap_content" 
+        android:layout_height="60dp"
+        android:layout_gravity="center">
+        <EditText android:id="@+id/freq" style="@style/inputFreq" />
+        <Button android:id="@+id/ctrl"
+            android:layout_width="75dp" 
+            android:layout_height="wrap_content"
+            android:onClick="Ctrl"
+            android:text="Play"/>
+    </LinearLayout>
+
+	<ListView android:id="@android:id/list"
+		android:layout_width="wrap_content" 
+		android:layout_height="wrap_content"
+		android:drawSelectorOnTop="false"
+	/>
+
+</LinearLayout>

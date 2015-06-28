@@ -1,55 +1,164 @@
 package com.vera5.afg;
 
-import android.app.Activity;
+import android.app.ListActivity;
+import android.app.AlertDialog;
+import android.app.AlertDialog.Builder;
+import android.content.Intent;
+import android.content.DialogInterface;
+import android.content.DialogInterface.OnClickListener;
+import android.content.SharedPreferences;
+import android.content.SharedPreferences.Editor;
+import android.database.Cursor;
 import android.os.Bundle;
+import android.os.CountDownTimer;
+import android.preference.PreferenceManager;
 import android.util.Log;
-import android.view.KeyEvent;
-import android.webkit.CookieManager;
-import android.webkit.WebChromeClient;
-import android.webkit.WebView;
-import android.webkit.WebViewClient;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
+import android.view.View;
+import android.widget.ArrayAdapter;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.ListView;
+import android.widget.Toast;
+import android.widget.AdapterView.OnItemSelectedListener;
+import android.widget.AdapterView;
+import java.text.DecimalFormat;
 
-public class MainActivity extends Activity {
+public class MainActivity extends ListActivity {
 
-  private WebView myWebView;
- 
-	@Override
-	public void onCreate(Bundle savedInstanceState) {
+  protected EditText freq;
+  private SharedPreferences sp;
+  private MyAdapter adapter;
+  private MyDatabase db;
+  private MyGenerator gen;
+  private ListView lv;
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.main);
-		myWebView = (WebView) findViewById(R.id.webview);
-		// Enable JavaScript
-		myWebView.getSettings().setJavaScriptEnabled(true);
-		// Enable Alert
-		myWebView.setWebChromeClient(new WebChromeClient());
-		// Bind JS and Android code
-		myWebView.addJavascriptInterface(new WebAppInterface(this), "Android");
-		// Enable localStorage (HTML5)
-		myWebView.getSettings().setDomStorageEnabled(true);
-		// MB511 won't load settings.htm
-		myWebView.setWebViewClient(new WebViewClient(){
+		sp = PreferenceManager.getDefaultSharedPreferences(this);
+		freq = (EditText) findViewById(R.id.freq);
+		freq.setText(sp.getString("freq", "528"));
+		gen = new MyGenerator(this);
+        lv = getListView();
+        db = new MyDatabase(this);
+        Cursor curs = db.query("SELECT rowid AS _id,freq,tag FROM frequency ORDER BY cnt DESC");
+        startManagingCursor(curs);
+        adapter = new MyAdapter(this,curs);
+        lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 			@Override
-			public boolean shouldOverrideUrlLoading(WebView view, String url){
-Log.d("***",url);
-				if(url.startsWith("http")) {
-					view.loadUrl(url);
-					return true;
-				}
-				return super.shouldOverrideUrlLoading(view,url);
+			public void onItemClick(AdapterView<?> parent,View view,int position,long id) {
+				Cursor curs = (Cursor) adapter.getItem(position);
+				freq.setText(round(curs.getFloat(1)));
 			}
 		});
-		// Load a HTML from assets
-        myWebView.loadUrl("file:///android_asset/main.htm");
+        lv.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+			@Override
+			public boolean onItemLongClick(AdapterView<?> parent,View view,int position,long id) {
+				Cursor curs = (Cursor) adapter.getItem(position);
+				Remove(round(curs.getFloat(1)));
+				return true;
+			}
+		});
+		lv.setAdapter(adapter);
+    }
+
+	@Override
+	public void onPause() {
+		// Save frequency
+		Editor edit = sp.edit();
+		edit.putString("freq",freq.getText().toString());
+		edit.commit();
+		super.onPause();
 	}
 
 	@Override
-	public boolean onKeyDown(int keyCode, KeyEvent event) {
-		// Check if the key event was the Back button and if there's history
-		if ((keyCode == KeyEvent.KEYCODE_BACK) && myWebView.canGoBack()) {
-			myWebView.goBack();
-			return true;
-		}
-		return super.onKeyDown(keyCode, event);
+	public boolean onCreateOptionsMenu(Menu menu) {
+		getMenuInflater().inflate(R.menu.main,menu);
+		return true;
 	}
 
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		// Handle item selection
+		switch (item.getItemId()) {
+			case R.id.add:
+				startActivity(new Intent(".AddFrequency"));
+				return true;
+			case R.id.del:
+				Remove(freq.getText().toString());
+				return true;
+			case R.id.settings:
+				startActivity(new Intent(".MySettings"));
+				return true;
+			default:
+				return super.onOptionsItemSelected(item);
+		}
+	}
+
+	private void Remove(final String freq) {
+		new AlertDialog.Builder(this)
+			.setTitle("Remove "+freq+" Hz?")
+			//.setMessage("Remove "+s+"?")
+			.setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+				public void onClick(DialogInterface dialog, int which) { 
+					db.del(freq);
+					adapter.getCursor().requery();
+				}
+			}).show();
+	}
+
+	public void Settings(View view) {
+		startActivity(new Intent(this, MySettings.class));
+	}
+
+	public void Ctrl(View view) {
+		if(gen.running) {
+			stop();
+		} else {
+			setSleep();
+			if (gen.play(freq.getText().toString(),sp.getInt("wave",R.id.sine))) {
+				setCtrl("Stop");
+				// Touch cnt
+				db.incCount(freq.getText().toString());
+				adapter.getCursor().requery();
+			}
+		}
+	}
+
+	private void setCtrl(String label) {
+		Button btn = (Button) findViewById(R.id.ctrl);
+		btn.setText(label);
+	}
+
+	private void setSleep() {
+		if(sp.getString("sleep", "").length() == 0) return;
+		try {
+			final int seconds = 1000 * Integer.parseInt(sp.getString("sleep", "90"));
+			new CountDownTimer(seconds,seconds) {
+				public void onTick(long millisUntilFinished) {
+				}
+				public void onFinish() {
+					stop();
+				}
+			}.start();
+		} catch (NumberFormatException e) {
+		}
+	}
+
+	private void stop() {
+		gen.stop();
+		setCtrl("Play");
+	}
+
+	private void Tooltip(String s) {
+		Toast.makeText(this,s,Toast.LENGTH_SHORT).show();
+	}
+
+	protected static String round(float f) {
+		return new DecimalFormat("#").format(f);
+	}
 }
