@@ -159,6 +159,6 @@ public class MainActivity extends ListActivity {
 	}
 
 	protected static String round(float f) {
-		return new DecimalFormat("#").format(f);
+		return new DecimalFormat("#.#").format(f);
 	}
 }

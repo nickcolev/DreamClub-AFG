@@ -14,8 +14,14 @@ public class MyGenerator {
   private final int duration = 1; 		// seconds
   private final int sampleRate = 44100;
   private final int numSamples = duration * sampleRate;
+  private int wave = R.id.sine;
   private AudioTrack track;
+  private int loopEnd = 0;
   protected boolean running = false;
+
+  // Instance data
+  private long periodSamples;
+  private long sampleNumber;
 
 	public MyGenerator(Context context) {
 		this.context = context;
@@ -34,19 +40,10 @@ public class MyGenerator {
 			Tooltip(e.getMessage());
 		}
 		if (f > 0) {
-			switch(wave){
-				case R.id.square:
-					track = genSquare(f);
-					break;
-				case R.id.triangle:
-					track = genTriangle(f);
-					break;
-				case R.id.sawtooth:
-					track = genSawtooth(f);
-					break;
-				default:
-					track = genSine(f);
-			}
+			this.wave = wave;
+			loopEnd = 0;
+			setFrequency(f);    
+			track = genSine(f);
 			track.play();
 			ok = running = true;
 		}
@@ -64,7 +61,7 @@ public class MyGenerator {
 		}
 	}
 
-	private AudioTrack setTrack(short[] buffer,int minIdx,int end) {
+	private AudioTrack setTrack(short[] buffer) {
 		AudioTrack track = new AudioTrack(
 			AudioManager.STREAM_MUSIC,
 			sampleRate,
@@ -72,47 +69,49 @@ public class MyGenerator {
 			AudioFormat.ENCODING_PCM_16BIT,
 			numSamples,
 			AudioTrack.MODE_STATIC);
+		if (loopEnd == 0) loopEnd = buffer.length / 4;
 		track.write(buffer, 0, buffer.length);
-		// Start/End are in frames (see http://developer.android.com/reference/android/media/AudioTrack.html#setLoopPoints(int, int, int))
-		if (minIdx > 0) end = minIdx;
-		if (end == 0) end = buffer.length / 2;
-		track.setLoopPoints(0, end, -1);
+		track.setLoopPoints(0, (int)periodSamples, -1);
 		return track;
 	}
 
 	private AudioTrack genSine(float freq) {
-		// fill out the array
-		double angle = 0,
-			f = (2 * Math.PI) * freq / sampleRate;
-		int end = 0,
-			minValue = Short.MAX_VALUE,
-			minIdx = 0;
-		short[] buffer = new short[numSamples];	// to be even bytes (see 'audioBuffSizeCheck()' body at http://en.sourceforge.jp/projects/gb-231r1-is01/scm/git/Gingerbread_2.3.3_r1_IS01/blobs/master/frameworks/base/media/java/android/media/AudioRecord.java)
-		for (int i=0; i<buffer.length; i++) {
-			buffer[i] = (short)(Short.MAX_VALUE * ((float) Math.sin(angle)));
-			angle += f;
-			if (i > 5)	// Spot the lowest amplitude
-				if (buffer[i-1] < 0 && buffer[i] > 0) {
-					if (minValue > buffer[i]) {
-						minValue = buffer[i];
-						minIdx = i;
-					}
-				}
-		}
-		return setTrack(buffer,minIdx,end);
+		return setTrack(getSamples());
 	}
 
-	// FIXME Under development below
-	private AudioTrack genSquare(float f) {
-Log.d("***GEN***", "Square under development (using sine)");
-		return genSine(f);
+	public void setFrequency(float frequency) {
+		periodSamples = (long)(sampleRate / frequency);
 	}
-	private AudioTrack genTriangle(float f) {
-Log.d("***GEN***", "Triangle under development (using sine)");
-		return genSine(f);
+ 
+	// @return Next oscillator sample
+	protected double getSample() {
+		double value, x = sampleNumber / (double) periodSamples;
+		switch (wave) {
+			default:
+			case R.id.triangle:	// FIXME To be continued
+			case R.id.sine:
+				value = Math.sin(2.0 * Math.PI * x);
+				break;
+			case R.id.square:
+				value = sampleNumber < (periodSamples / 2) ? 1.0 : -1.0;
+				break;
+			case R.id.sawtooth:
+				value = 2.0 * (x - Math.floor(x + 0.5));
+				break;
+		}
+		sampleNumber = (sampleNumber + 1) % periodSamples;
+		return value;
 	}
-	private AudioTrack genSawtooth(float f) {
-Log.d("***GEN***", "Sawtooth under development (using sine)");
-		return genSine(f);
-	}
+     
+	protected short[] getSamples() {
+		short[] buffer = new short[numSamples];
+		int index = 0;
+		for (int i = 0; i < numSamples; i++) {
+			double ds = getSample() * Short.MAX_VALUE;
+			short ss = (short) Math.round(ds);
+			buffer[index++] = ss;
+		}
+		return buffer;
+  }
+
 }
