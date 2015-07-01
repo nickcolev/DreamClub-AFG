@@ -23,6 +23,7 @@ public class MyDatabase extends SQLiteOpenHelper {
 	public void onCreate(SQLiteDatabase db) {
 		db.execSQL("CREATE TABLE IF NOT EXISTS frequency (freq FLOAT,cnt INT DEFAULT 0,tag VARCHAR(40))");
 		db.execSQL("CREATE INDEX IF NOT EXISTS frequency_cnt ON frequency(cnt)");
+		// Insert frequencies in reverse order, so the last to appear at the top initially
 		// FIXME Pick good set of frequencies
 		add(db,528,"DNA repair",15);
 		add(db,1830,"Eyesight sharpen",14);

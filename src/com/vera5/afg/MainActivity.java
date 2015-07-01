@@ -21,14 +21,14 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
-import android.widget.Toast;
 import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.AdapterView;
-import java.text.DecimalFormat;
 
 public class MainActivity extends ListActivity {
 
   protected EditText freq;
+  protected static final float F_MIN = 1;		// min allowed frequency
+  protected static final float F_MAX = 15000;	// max -"-
   private SharedPreferences sp;
   private MyAdapter adapter;
   private MyDatabase db;
@@ -52,14 +52,14 @@ public class MainActivity extends ListActivity {
 			@Override
 			public void onItemClick(AdapterView<?> parent,View view,int position,long id) {
 				Cursor curs = (Cursor) adapter.getItem(position);
-				freq.setText(round(curs.getFloat(1)));
+				freq.setText(Lib.f2s(curs.getFloat(1)));
 			}
 		});
         lv.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
 			@Override
 			public boolean onItemLongClick(AdapterView<?> parent,View view,int position,long id) {
 				Cursor curs = (Cursor) adapter.getItem(position);
-				Remove(round(curs.getFloat(1)));
+				Remove(""+curs.getFloat(1));
 				return true;
 			}
 		});
@@ -101,8 +101,8 @@ public class MainActivity extends ListActivity {
 
 	private void Remove(final String freq) {
 		new AlertDialog.Builder(this)
-			.setTitle("Remove "+freq+" Hz?")
-			//.setMessage("Remove "+s+"?")
+			//.setTitle("Remove "+freq+" Hz?")
+			.setMessage("Remove "+freq+"?")
 			.setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
 				public void onClick(DialogInterface dialog, int which) { 
 					db.del(freq);
@@ -139,11 +139,8 @@ public class MainActivity extends ListActivity {
 		try {
 			final int seconds = 1000 * Integer.parseInt(sp.getString("sleep", "90"));
 			new CountDownTimer(seconds,seconds) {
-				public void onTick(long millisUntilFinished) {
-				}
-				public void onFinish() {
-					stop();
-				}
+				public void onTick(long millisUntilFinished) {}
+				public void onFinish() { stop(); }
 			}.start();
 		} catch (NumberFormatException e) {
 		}
@@ -154,11 +151,4 @@ public class MainActivity extends ListActivity {
 		setCtrl("Play");
 	}
 
-	private void Tooltip(String s) {
-		Toast.makeText(this,s,Toast.LENGTH_SHORT).show();
-	}
-
-	protected static String round(float f) {
-		return new DecimalFormat("#.#").format(f);
-	}
 }

@@ -11,6 +11,7 @@
 			android:id="@+id/tag"
 			android:layout_height="wrap_content"
 			android:layout_width="fill_parent"
+			 android:singleLine="true"
 			android:selectAllOnFocus="true" />
 		<TextView android:text="" android:layout_height="wrap_content" android:layout_width="wrap_content"/>
 

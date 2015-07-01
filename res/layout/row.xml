@@ -3,18 +3,19 @@
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:orientation="horizontal"
+    android:padding="6dp"
     android:stretchColumns="1">
 	<TableRow>
 		<TextView
 			android:id="@+id/frequency"
 			android:layout_height="wrap_content"
 			android:layout_width="80dp"
-			android:textColor="#FFFF66"
+			android:textColor="#FFFF77"
 			android:layout_gravity="right" />
 		<TextView
 			android:id="@+id/tag"
 			android:layout_height="wrap_content"
 			android:layout_width="wrap_content"
-			android:layout_marginLeft="8dp" />
+			android:paddingLeft="8dp" />
 	</TableRow>
 </TableLayout> 

@@ -29,7 +29,7 @@ public class MyAdapter extends CursorAdapter {
 		TextView tvTag  = (TextView) view.findViewById(R.id.tag);
 		float freq = cursor.getFloat(cursor.getColumnIndexOrThrow("freq"));
 		String tag = cursor.getString(cursor.getColumnIndexOrThrow("tag"));
-		tvFreq.setText(MainActivity.round(freq));
+		tvFreq.setText(Lib.f2s(freq));
 		tvTag.setText(tag);
 	}
 

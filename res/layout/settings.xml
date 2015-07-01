@@ -5,7 +5,7 @@
     android:layout_gravity="center">
 
 	<TableRow>
-		<TextView android:text="Sleep" />
+		<TextView android:text="Sleep" android:paddingRight="8dp" />
 		<EditText
 			android:id="@+id/sleep"
 			android:layout_height="wrap_content"
@@ -17,7 +17,7 @@
 	</TableRow>
 
 	<TableRow>
-		<TextView android:text="Wave" />
+		<TextView android:text="Wave" android:paddingRight="8dp" />
 		<RadioGroup android:id="@+id/waves"
 			android:layout_width="wrap_content"
 			android:layout_height="wrap_content"

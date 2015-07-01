@@ -17,6 +17,10 @@ public class AddFrequency extends Activity {
 	public void onPause() {
 		
 		EditText etFreq = (EditText) findViewById(R.id.freq);
+		float freq = Lib.s2f(etFreq.getText().toString());
+		if (freq < MainActivity.F_MIN || freq > MainActivity.F_MAX) {
+			Lib.Tooltip(this,"Freq out of bound \n(allowed "+Lib.f2s(MainActivity.F_MIN)+" to "+Lib.f2s(MainActivity.F_MAX)+" Hz)");
+		}
 		EditText etTag  = (EditText) findViewById(R.id.tag);
 		if (etFreq.getText().toString().length() > 0 &&
 			etTag.getText().toString().length() > 0) {
