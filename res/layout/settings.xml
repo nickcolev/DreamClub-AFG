@@ -32,11 +32,6 @@
 				android:layout_width="wrap_content"
 				android:layout_height="wrap_content"
 				android:text="Square" />
-			<RadioButton android:id="@+id/triangle"
-				style="@style/optText"
-				android:layout_width="wrap_content"
-				android:layout_height="wrap_content"
-				android:text="Triangle" />
 			<RadioButton android:id="@+id/sawtooth"
 				style="@style/optText"
 				android:layout_width="wrap_content"

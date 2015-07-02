@@ -62,17 +62,14 @@ public class MyGenerator {
 			AudioTrack.MODE_STATIC);
 		track.write(buffer, 0, buffer.length);
 		track.setPlaybackHeadPosition(0);
-		// FIXME Problem on low frequencies
 		track.setLoopPoints(0, loopEnd(buffer), -1);
 	}
 
 	private int loopEnd(short[] buffer) {
 		int size = buffer.length / 2,
 			end = (size / periodSamples) * periodSamples;
-Log.d("***", "periodSamples="+periodSamples+", end="+end);
 		if (end == 0) {
 			end = size;
-			Log.d("***", "end="+end);
 		}
 		return end;
 	}
@@ -82,7 +79,6 @@ Log.d("***", "periodSamples="+periodSamples+", end="+end);
 		double value, x = sampleNumber / (float) periodSamples;
 		switch (wave) {
 			default:
-			case R.id.triangle:	// FIXME To be continued
 			case R.id.sine:
 				value = Math.sin(2.0 * Math.PI * x);
 				break;
@@ -103,7 +99,6 @@ Log.d("***", "periodSamples="+periodSamples+", end="+end);
 		int size = AudioTrack.getMinBufferSize(sampleRate,AudioFormat.CHANNEL_OUT_MONO,AudioFormat.ENCODING_PCM_16BIT);
 		size = bufferSize;
 		short[] buffer = new short[size];
-Log.d("***", "buffer size "+buffer.length);
 		int index = 0;
 		for (int i=0; i<size; i++) {
 			double ds = getSample() * Short.MAX_VALUE;
