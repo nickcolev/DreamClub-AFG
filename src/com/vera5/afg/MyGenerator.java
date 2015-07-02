@@ -10,9 +10,8 @@ import java.lang.IllegalStateException;
 public class MyGenerator {
 
   private final Context context;
-  private final int duration = 1; 		// seconds
-  private final int sampleRate = 44100;
-  private final int numSamples = duration * sampleRate;
+  private final int sampleRate = 48000;
+  private final int bufferSize = sampleRate;
   private int wave = R.id.sine;
   private AudioTrack track = null;
   protected boolean running = false;
@@ -62,13 +61,20 @@ public class MyGenerator {
 			buffer.length,
 			AudioTrack.MODE_STATIC);
 		track.write(buffer, 0, buffer.length);
-		// Calc loop end point
-		int n = 2048 / periodSamples;
-		int k = n * periodSamples;
-		int end = k == 2048 ? k - periodSamples : k;
-//Log.d("***", "n="+n+", k="+k+", end="+end);
 		track.setPlaybackHeadPosition(0);
-		track.setLoopPoints(0, end, -1);
+		// FIXME Problem on low frequencies
+		track.setLoopPoints(0, loopEnd(buffer), -1);
+	}
+
+	private int loopEnd(short[] buffer) {
+		int size = buffer.length / 2,
+			end = (size / periodSamples) * periodSamples;
+Log.d("***", "periodSamples="+periodSamples+", end="+end);
+		if (end == 0) {
+			end = size;
+			Log.d("***", "end="+end);
+		}
+		return end;
 	}
 
 	// @return Next oscillator sample
@@ -95,7 +101,9 @@ public class MyGenerator {
 		periodSamples = (int)(sampleRate / frequency);
 		//int size = periodSamples * 2;
 		int size = AudioTrack.getMinBufferSize(sampleRate,AudioFormat.CHANNEL_OUT_MONO,AudioFormat.ENCODING_PCM_16BIT);
+		size = bufferSize;
 		short[] buffer = new short[size];
+Log.d("***", "buffer size "+buffer.length);
 		int index = 0;
 		for (int i=0; i<size; i++) {
 			double ds = getSample() * Short.MAX_VALUE;

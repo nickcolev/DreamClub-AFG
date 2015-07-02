@@ -7,28 +7,30 @@ import android.widget.EditText;
 
 public class AddFrequency extends Activity {
 
+  private EditText etFreq, etTag;
+
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.add);
+		etFreq = (EditText) findViewById(R.id.freq);
+		etTag  = (EditText) findViewById(R.id.tag);
 	}
 
 	@Override
-	public void onPause() {
-		
-		EditText etFreq = (EditText) findViewById(R.id.freq);
+	public void onBackPressed() {
 		float freq = Lib.s2f(etFreq.getText().toString());
-		if (freq < MainActivity.F_MIN || freq > MainActivity.F_MAX) {
-			Lib.Tooltip(this,"Freq out of bound \n(allowed "+Lib.f2s(MainActivity.F_MIN)+" to "+Lib.f2s(MainActivity.F_MAX)+" Hz)");
-		}
-		EditText etTag  = (EditText) findViewById(R.id.tag);
-		if (etFreq.getText().toString().length() > 0 &&
-			etTag.getText().toString().length() > 0) {
+		String s = etFreq.getText().toString();
+		if (s.length() > 0 && etTag.getText().toString().length() > 0) {
+			if (!Lib.inRange(s)) {
+				Lib.eRange(this);
+				return;
+			}
 			// Add the frequency if both freq and tag entered
 			MyDatabase db = new MyDatabase(this);
 			db.add(etFreq.getText().toString(),etTag.getText().toString(),0);
 		}
-		super.onPause();
+		super.onBackPressed();
 	}
 
 }

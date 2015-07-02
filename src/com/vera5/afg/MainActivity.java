@@ -12,6 +12,7 @@ import android.database.Cursor;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.preference.PreferenceManager;
+import android.text.InputFilter;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -27,8 +28,8 @@ import android.widget.AdapterView;
 public class MainActivity extends ListActivity {
 
   protected EditText freq;
-  protected static final float F_MIN = 1;		// min allowed frequency
-  protected static final float F_MAX = 15000;	// max -"-
+  protected static final float F_MIN = 0.5f;		// min allowed frequency
+  protected static final float F_MAX = 15000f;	// max -"-
   private SharedPreferences sp;
   private MyAdapter adapter;
   private MyDatabase db;
@@ -119,13 +120,8 @@ public class MainActivity extends ListActivity {
 		if(gen.running) {
 			stop();
 		} else {
-			setSleep();
-			if (gen.play(freq.getText().toString(),sp.getInt("wave",R.id.sine))) {
-				setCtrl("Stop");
-				// Touch cnt
-				db.incCount(freq.getText().toString());
-				adapter.getCursor().requery();
-			}
+			if (Lib.inRange(freq.getText().toString())) play();
+			else Lib.eRange(this);
 		}
 	}
 
@@ -143,6 +139,16 @@ public class MainActivity extends ListActivity {
 				public void onFinish() { stop(); }
 			}.start();
 		} catch (NumberFormatException e) {
+		}
+	}
+
+	private void play() {
+		setSleep();
+		if (gen.play(freq.getText().toString(),sp.getInt("wave",R.id.sine))) {
+			setCtrl("Stop");
+			// Touch cnt
+			db.incCount(freq.getText().toString());
+			adapter.getCursor().requery();
 		}
 	}
 
