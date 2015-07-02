@@ -117,12 +117,10 @@ public class MainActivity extends ListActivity {
 	}
 
 	public void Ctrl(View view) {
-		if(gen.running) {
+		if(gen.running)
 			stop();
-		} else {
-			if (Lib.inRange(freq.getText().toString())) play();
-			else Lib.eRange(this);
-		}
+		else
+			if (Lib.inRange(this,freq.getText().toString())) play();
 	}
 
 	private void setCtrl(String label) {

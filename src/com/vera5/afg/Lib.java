@@ -21,16 +21,15 @@ public class Lib {
 		return f;
 	}
 
-	// FIXME Next 2 fn could be simplified, like 'chkRange'
-	protected static void eRange(Context context) {
-		Tooltip(context,"Freq out of bound \n(allowed "+Lib.f2s(MainActivity.F_MIN)+" to "+Lib.f2s(MainActivity.F_MAX)+" Hz)");
-	}
-
-	protected static boolean inRange(String frequency) {
-		float freq = s2f(frequency);
-Log.d("***", "freq="+freq+", min: "+MainActivity.F_MIN+", max: "+MainActivity.F_MAX);
-		return (MainActivity.F_MIN > freq || freq > MainActivity.F_MAX ?
-			false : true);
+	protected static boolean inRange(Context context, String frequency) {
+		float min = 1f,
+			max = 15000f,
+			freq = s2f(frequency);
+		if (freq < min || freq > max) {
+			Tooltip(context,"Freqency out of bound \n(allowed "+f2s(min)+" ÷ "+f2s(max)+" Hz)");
+			return false;
+		}
+		return true;
 	}
 
 	protected static void Tooltip(Context context,String message) {

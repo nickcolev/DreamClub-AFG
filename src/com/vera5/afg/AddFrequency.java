@@ -22,10 +22,7 @@ public class AddFrequency extends Activity {
 		float freq = Lib.s2f(etFreq.getText().toString());
 		String s = etFreq.getText().toString();
 		if (s.length() > 0 && etTag.getText().toString().length() > 0) {
-			if (!Lib.inRange(s)) {
-				Lib.eRange(this);
-				return;
-			}
+			if (!Lib.inRange(this,s)) return;
 			// Add the frequency if both freq and tag entered
 			MyDatabase db = new MyDatabase(this);
 			db.add(etFreq.getText().toString(),etTag.getText().toString(),0);
