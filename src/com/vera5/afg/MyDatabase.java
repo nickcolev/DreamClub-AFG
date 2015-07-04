@@ -37,21 +37,21 @@ public class MyDatabase extends SQLiteOpenHelper {
 			728 (98)	Dental general
 		*/
 		// Insert frequencies in reverse order, so the last to appear at the top initially
-		add(db,10025,"Cancer (general)",0);
-		add(db,3176,"Hypertension",0);
-		add(db,727,"Stiff shoulders",0);
-		add(db,728,"Teeth",0);
-		add(db,646,"Hair",0);
-		add(db,190,"Burns",0);
-		add(db,1550,"Bone trauma",0);
-		add(db,2720,"Wound healing",0);
-		add(db,880,"General antiseptic",0);
-		add(db,787,"Depression",0);
-		add(db,10000,"Multiple",0);
-		add(db,6000,"Calming",0);
-		add(db,1234,"Breathe (deep)",0);
-		add(db,1830,"Eyesight sharpen",0);
-		add(db,528,"DNA repair",0);
+		add(db,10025,"Cancer (general)");
+		add(db,3176,"Hypertension");
+		add(db,727,"Stiff shoulders");
+		add(db,728,"Teeth");
+		add(db,646,"Hair");
+		add(db,190,"Burns");
+		add(db,1550,"Bone trauma");
+		add(db,2720,"Wound healing");
+		add(db,880,"General antiseptic");
+		add(db,787,"Depression");
+		add(db,10000,"Multiple");
+		add(db,6000,"Calming");
+		add(db,1234,"Breathe (deep)");
+		add(db,1830,"Eyesight sharpen");
+		add(db,528,"DNA repair");
 	}
 
 	@Override
@@ -64,14 +64,13 @@ public class MyDatabase extends SQLiteOpenHelper {
 
 	public void add(String frequency,String tag,int cnt) {
 		SQLiteDatabase db = getWritableDatabase();
-		db.execSQL("INSERT INTO frequency (freq,tag,cnt) VALUES ("+frequency+",'"+tag+"',"+cnt+")");
+		db.execSQL("INSERT INTO frequency (freq,tag,cnt) VALUES ("+frequency+",'"+escape(tag)+"',"+cnt+")");
 		db.close();
 	}
 
 	// Overloaded
-	public void add(SQLiteDatabase db,float frequency,String tag,int cnt) {
-		// FIXME Avoid ' in the tag (will cause SQL error)
-		db.execSQL("INSERT INTO frequency (freq,tag,cnt) VALUES ("+frequency+",'"+tag+"',"+cnt+")");
+	public void add(SQLiteDatabase db,float frequency,String tag) {
+		db.execSQL("INSERT INTO frequency (freq,tag) VALUES ("+frequency+",'"+escape(tag)+"')");
 	}
 
 	public void del(String frequency) {
@@ -81,4 +80,9 @@ public class MyDatabase extends SQLiteOpenHelper {
 	protected void incCount(String freq) {
 		getWritableDatabase().execSQL("UPDATE frequency SET cnt=cnt+1 WHERE freq="+freq);
 	}
+
+	private String escape(String s) {
+		return s.replace("'","''");
+	}
+
 }
