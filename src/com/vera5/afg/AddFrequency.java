@@ -1,4 +1,4 @@
-package com.vera5.afg;
+package com.vera5.afgl;
 
 import android.app.Activity;
 import android.os.Bundle;
