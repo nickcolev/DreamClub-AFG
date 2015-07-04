@@ -23,19 +23,35 @@ public class MyDatabase extends SQLiteOpenHelper {
 	public void onCreate(SQLiteDatabase db) {
 		db.execSQL("CREATE TABLE IF NOT EXISTS frequency (freq FLOAT,cnt INT DEFAULT 0,tag VARCHAR(40))");
 		db.execSQL("CREATE INDEX IF NOT EXISTS frequency_cnt ON frequency(cnt)");
+		/* FIXME Pick good set of frequencies
+			Top 10 according to 'words.php' are
+			880 (330)	General antiseptic 
+			787 (288)	Depression
+			727 (284)
+			20 (229)
+			1550 (171)	Bone_trauma
+			802 (168)
+			10000 (164)
+			465 (122)
+			776 (117)	Toothache
+			728 (98)	Dental general
+		*/
 		// Insert frequencies in reverse order, so the last to appear at the top initially
-		// FIXME Pick good set of frequencies
-		add(db,528,"DNA repair",15);
-		add(db,1830,"Eyesight sharpen",14);
-		add(db,20,"Stiff shoulders",13);
-		add(db,10000,"Multiple",12);
-		add(db,1234,"Breathe",11);
-		add(db,727,"Wound healing",10);
-		add(db,47,"Regeneration and healing",9);
-		add(db,646,"Hair",8);
-		add(db,465,"Teeth",7);
-		add(db,6000,"Calming",6);
-		add(db,3176,"Hypertension",5);
+		add(db,10025,"Cancer (general)",0);
+		add(db,3176,"Hypertension",0);
+		add(db,727,"Stiff shoulders",0);
+		add(db,728,"Teeth",0);
+		add(db,646,"Hair",0);
+		add(db,190,"Burns",0);
+		add(db,1550,"Bone trauma",0);
+		add(db,2720,"Wound healing",0);
+		add(db,880,"General antiseptic",0);
+		add(db,787,"Depression",0);
+		add(db,10000,"Multiple",0);
+		add(db,6000,"Calming",0);
+		add(db,1234,"Breathe (deep)",0);
+		add(db,1830,"Eyesight sharpen",0);
+		add(db,528,"DNA repair",0);
 	}
 
 	@Override

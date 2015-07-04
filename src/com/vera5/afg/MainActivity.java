@@ -60,7 +60,7 @@ public class MainActivity extends ListActivity {
 			@Override
 			public boolean onItemLongClick(AdapterView<?> parent,View view,int position,long id) {
 				Cursor curs = (Cursor) adapter.getItem(position);
-				Remove(""+curs.getFloat(1));
+				Remove(Lib.f2s(curs.getFloat(1)));
 				return true;
 			}
 		});

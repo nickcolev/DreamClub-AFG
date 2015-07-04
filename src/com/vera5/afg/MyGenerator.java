@@ -68,9 +68,7 @@ public class MyGenerator {
 	private int loopEnd(short[] buffer) {
 		int size = buffer.length / 2,
 			end = (size / periodSamples) * periodSamples;
-		if (end == 0) {
-			end = size;
-		}
+		if (end == 0) end = size;
 		return end;
 	}
 
