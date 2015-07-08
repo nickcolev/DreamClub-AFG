@@ -11,7 +11,6 @@ public class MyGenerator {
 
   private final Context context;
   private final int sampleRate = 48000;
-  private final int bufferSize = sampleRate;
   private int wave = R.id.sine;
   private AudioTrack track = null;
   protected boolean running = false;
@@ -25,20 +24,12 @@ public class MyGenerator {
 	}
 
     public boolean play(String freq,int wave) {
-		boolean ok = false;
-		float f = 0;
-		try {
-			f = Float.parseFloat(freq);
-		} catch (Exception e) {
-			Lib.Tooltip(context,e.getMessage());
-		}
-		if (f > 0) {
-			this.wave = wave;
-			setTrack(getSamples(f));
-			track.play();
-			ok = running = true;
-		}
-		return ok;
+		this.wave = wave;
+		float f = Lib.s2f(freq);
+		setTrack(getSamples(f));
+		track.play();
+		running = true;
+		return running;
     }
 
 	public void stop() {
@@ -68,6 +59,7 @@ public class MyGenerator {
 	private int loopEnd(short[] buffer) {
 		int size = buffer.length / 2,
 			end = (size / periodSamples) * periodSamples;
+Log.d("***", "end="+end);
 		if (end == 0) end = size;
 		return end;
 	}
@@ -93,9 +85,9 @@ public class MyGenerator {
      
 	protected short[] getSamples(float frequency) {
 		periodSamples = (int)(sampleRate / frequency);
-		//int size = periodSamples * 2;
-		int size = AudioTrack.getMinBufferSize(sampleRate,AudioFormat.CHANNEL_OUT_MONO,AudioFormat.ENCODING_PCM_16BIT);
-		size = bufferSize;
+		int size = buffSize(frequency);
+		//int size = 2 * AudioTrack.getMinBufferSize(sampleRate,AudioFormat.CHANNEL_OUT_MONO,AudioFormat.ENCODING_PCM_16BIT);
+Log.d("***", "f: "+frequency+", periodSamples: "+periodSamples+", bufSize: "+size);
 		short[] buffer = new short[size];
 		int index = 0;
 		for (int i=0; i<size; i++) {
@@ -104,6 +96,12 @@ public class MyGenerator {
 			buffer[index++] = ss;
 		}
 		return buffer;
-  }
+	}
+
+	private int buffSize(float freq) {
+		if(freq > 4) return sampleRate;
+		if(freq > 2) return 2*sampleRate;
+		return 4*sampleRate;
+	}
 
 }
