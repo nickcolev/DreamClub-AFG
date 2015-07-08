@@ -12,7 +12,9 @@ import android.database.Cursor;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.preference.PreferenceManager;
-import android.text.InputFilter;
+//import android.text.InputFilter;
+import android.text.Html;
+import android.text.method.LinkMovementMethod;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -22,6 +24,7 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageButton;
 import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.AdapterView;
 
@@ -45,6 +48,9 @@ public class MainActivity extends ListActivity {
 		freq.setText(sp.getString("freq", "528"));
 		gen = new MyGenerator(this);
         lv = getListView();
+        //
+		View footer = getLayoutInflater().inflate(R.layout.footer, null);
+        lv.addFooterView(footer);
         db = new MyDatabase(this);
         Cursor curs = db.query("SELECT rowid AS _id,freq,tag FROM frequency ORDER BY cnt DESC");
         startManagingCursor(curs);
