@@ -12,7 +12,6 @@ import android.database.Cursor;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.preference.PreferenceManager;
-//import android.text.InputFilter;
 import android.text.Html;
 import android.text.method.LinkMovementMethod;
 import android.util.Log;
@@ -20,6 +19,7 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.webkit.WebView;
 import android.widget.ArrayAdapter;
 import android.widget.ImageButton;
 import android.widget.EditText;
@@ -48,9 +48,7 @@ public class MainActivity extends ListActivity {
 		freq.setText(sp.getString("freq", "528"));
 		gen = new MyGenerator(this);
         lv = getListView();
-        //
-		View footer = getLayoutInflater().inflate(R.layout.footer, null);
-        lv.addFooterView(footer);
+        addFooter();
         db = new MyDatabase(this);
         Cursor curs = db.query("SELECT rowid AS _id,freq,tag FROM frequency ORDER BY cnt DESC");
         startManagingCursor(curs);
@@ -159,6 +157,13 @@ public class MainActivity extends ListActivity {
 	private void stop() {
 		gen.stop();
 		setCtrl(false);
+	}
+
+	private void addFooter() {
+		View footer = getLayoutInflater().inflate(R.layout.footer, null);
+		WebView wv = (WebView) footer.findViewById(R.id.webview);
+		wv.loadData("<style>body { margin: 0; padding: 0; background: #112411; } a { text-decoration: none; color: #bbc; }</style><div align=\"right\"><i><a href=\"http://www.electroherbalism.com/Bioelectronics/FrequenciesandAnecdotes/CAFL.htm\">more frequencies</a></i>&nbsp;</div>", "text/html", null);
+        lv.addFooterView(footer);
 	}
 
 }

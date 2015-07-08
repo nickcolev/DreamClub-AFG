@@ -4,5 +4,4 @@
     <string name="mnuAdd">Add</string>
     <string name="mnuDel">Remove</string>
     <string name="mnuSettings">Settings</string>
-    <string name="href"><![CDATA[<a href="#">footer</a>]]></string>
 </resources>
