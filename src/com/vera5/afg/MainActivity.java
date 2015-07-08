@@ -162,7 +162,7 @@ public class MainActivity extends ListActivity {
 	private void addFooter() {
 		View footer = getLayoutInflater().inflate(R.layout.footer, null);
 		WebView wv = (WebView) footer.findViewById(R.id.webview);
-		wv.loadData("<style>body { margin: 0; padding: 0; background: #112411; } a { text-decoration: none; color: #bbc; }</style><div align=\"right\"><i><a href=\"http://www.electroherbalism.com/Bioelectronics/FrequenciesandAnecdotes/CAFL.htm\">more frequencies</a></i>&nbsp;</div>", "text/html", null);
+		wv.loadUrl("file:///android_asset/footer.htm");
         lv.addFooterView(footer);
 	}
 
