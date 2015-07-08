@@ -13,11 +13,11 @@
         android:layout_marginBottom="4dp"
         android:layout_gravity="center">
         <EditText android:id="@+id/freq" style="@style/inputFreq" />
-        <Button android:id="@+id/ctrl"
+        <ImageButton android:id="@+id/ctrl"
             android:layout_width="75dp" 
             android:layout_height="wrap_content"
             android:onClick="Ctrl"
-            android:text="Play"/>
+            android:src="@drawable/ic_action_play"/>
     </LinearLayout>
 
 	<ListView android:id="@android:id/list"

@@ -19,7 +19,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.AdapterView.OnItemSelectedListener;
@@ -123,9 +123,9 @@ public class MainActivity extends ListActivity {
 			if (Lib.inRange(this,freq.getText().toString())) play();
 	}
 
-	private void setCtrl(String label) {
-		Button btn = (Button) findViewById(R.id.ctrl);
-		btn.setText(label);
+	private void setCtrl(boolean mode) {
+		ImageButton btn = (ImageButton) findViewById(R.id.ctrl);
+		btn.setImageResource(mode ? R.drawable.ic_action_stop : R.drawable.ic_action_play);
 	}
 
 	private void setSleep() {
@@ -143,7 +143,7 @@ public class MainActivity extends ListActivity {
 	private void play() {
 		setSleep();
 		if (gen.play(freq.getText().toString(),sp.getInt("wave",R.id.sine))) {
-			setCtrl("Stop");
+			setCtrl(true);
 			// Touch cnt
 			db.incCount(freq.getText().toString());
 			adapter.getCursor().requery();
@@ -152,7 +152,7 @@ public class MainActivity extends ListActivity {
 
 	private void stop() {
 		gen.stop();
-		setCtrl("Play");
+		setCtrl(false);
 	}
 
 }
