@@ -4,4 +4,5 @@
     <string name="mnuAdd">Add</string>
     <string name="mnuDel">Remove</string>
     <string name="mnuSettings">Settings</string>
+    <string name="mnuAbout">About</string>
 </resources>

@@ -22,6 +22,12 @@
 				<category android:name="android.intent.category.DEFAULT" />
 			</intent-filter>
 		</activity>
+    	<activity android:name="com.vera5.afgl.About">
+			<intent-filter>
+				<action android:name="com.vera5.afgl.About" />
+				<category android:name="android.intent.category.DEFAULT" />
+			</intent-filter>
+		</activity>
     </application>
     <uses-sdk android:minSdkVersion="7" android:targetSdkVersion="14" />
 </manifest> 

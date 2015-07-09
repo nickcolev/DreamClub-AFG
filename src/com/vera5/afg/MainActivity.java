@@ -99,6 +99,9 @@ public class MainActivity extends ListActivity {
 			case R.id.settings:
 				startActivity(new Intent(".MySettings"));
 				return true;
+			case R.id.about:
+				startActivity(new Intent("com.vera5.afgl.About"));
+				return true;
 			default:
 				return super.onOptionsItemSelected(item);
 		}

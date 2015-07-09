@@ -3,4 +3,5 @@
     <item android:id="@+id/add" android:title="@string/mnuAdd" />
     <item android:id="@+id/del" android:title="@string/mnuDel" />
     <item android:id="@+id/settings" android:title="@string/mnuSettings" />
+    <item android:id="@+id/about" android:title="@string/mnuAbout" />
 </menu>
