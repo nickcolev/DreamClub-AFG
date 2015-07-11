@@ -2,4 +2,4 @@ a	{ text-decoration: none; color: #ffa; }
 a.footer	{ color: #bbc; }
 body { margin: 0; padding: 0; background: #112411; color: #fff; }
 div.footer	{ text-align: right; font-style: italic; padding-right: 8px; }
-ul	{ margin-top: 4px; }
+ul	{ margin-top: 4px; padding-left: 1.25em; }
