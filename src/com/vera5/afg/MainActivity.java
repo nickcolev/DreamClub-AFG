@@ -1,4 +1,4 @@
-package com.vera5.afgl;
+package com.vera5.afg;
 
 import android.app.ListActivity;
 import android.app.AlertDialog;
@@ -100,7 +100,7 @@ public class MainActivity extends ListActivity {
 				startActivity(new Intent(".MySettings"));
 				return true;
 			case R.id.about:
-				startActivity(new Intent("com.vera5.afgl.About"));
+				startActivity(new Intent("com.vera5.afg.About"));
 				return true;
 			default:
 				return super.onOptionsItemSelected(item);

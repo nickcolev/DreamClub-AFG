@@ -1,4 +1,4 @@
-package com.vera5.afgl;
+package com.vera5.afg;
 
 import android.content.Context;
 import android.media.AudioFormat;

@@ -1,5 +1,6 @@
-a	{ text-decoration: none; color: #ffa; }
-a.footer	{ color: #bbc; }
-body { margin: 0; padding: 0; background: #112411; color: #fff; }
+a	{ text-decoration: none; color: #eea; }
+a.footer	{ color: #bbc; font-size: 0.9em; }
+body { background: #112411; color: #ccb; font-size: 1.1em; }
 div.footer	{ text-align: right; font-style: italic; padding-right: 8px; }
-ul	{ margin-top: 4px; padding-left: 1.25em; }
+p.about	{ text-align: center; font-size: 1.2em; }
+ul	{ margin-top: 4px; padding-left: 1.5em; }

@@ -1,4 +1,4 @@
-package com.vera5.afgl;
+package com.vera5.afg;
 
 import android.content.Context;
 import android.database.Cursor;
@@ -23,19 +23,6 @@ public class MyDatabase extends SQLiteOpenHelper {
 	public void onCreate(SQLiteDatabase db) {
 		db.execSQL("CREATE TABLE IF NOT EXISTS frequency (freq FLOAT,cnt INT DEFAULT 0,tag VARCHAR(40))");
 		db.execSQL("CREATE INDEX IF NOT EXISTS frequency_cnt ON frequency(cnt)");
-		/* FIXME Pick good set of frequencies
-			Top 10 according to 'words.php' are
-			880 (330)	General antiseptic 
-			787 (288)	Depression
-			727 (284)
-			20 (229)
-			1550 (171)	Bone_trauma
-			802 (168)
-			10000 (164)
-			465 (122)
-			776 (117)	Toothache
-			728 (98)	Dental general
-		*/
 		// Insert frequencies in reverse order, so the last to appear at the top initially
 		add(db,10025,"Cancer (general)");
 		add(db,3176,"Hypertension");
