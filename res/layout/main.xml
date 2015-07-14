@@ -2,8 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical"
     android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-	>
+    android:layout_height="wrap_content">
 
 	<LinearLayout
         android:orientation="horizontal"
@@ -17,14 +16,13 @@
             android:layout_width="75dp" 
             android:layout_height="wrap_content"
             android:onClick="Ctrl"
-            android:src="@drawable/ic_action_play"/>
+            android:src="@drawable/ic_action_play" />
     </LinearLayout>
 
 	<ListView android:id="@android:id/list"
 		android:layout_width="wrap_content" 
 		android:layout_height="wrap_content"
 		android:choiceMode="singleChoice"
-		android:drawSelectorOnTop="false"
-	/>
+		android:drawSelectorOnTop="false" />
 
 </LinearLayout>

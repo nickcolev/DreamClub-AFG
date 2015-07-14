@@ -34,6 +34,7 @@ public class MainActivity extends ListActivity {
   protected static final float F_MIN = 0.5f;		// min allowed frequency
   protected static final float F_MAX = 15000f;	// max -"-
   private SharedPreferences sp;
+  private CountDownTimer timer;
   private MyAdapter adapter;
   private MyDatabase db;
   private MyGenerator gen;
@@ -125,7 +126,7 @@ public class MainActivity extends ListActivity {
 
 	public void Ctrl(View view) {
 		if(gen.running)
-			stop();
+			stop(false);
 		else
 			if (Lib.inRange(this,freq.getText().toString())) play();
 	}
@@ -139,9 +140,9 @@ public class MainActivity extends ListActivity {
 		if(sp.getString("sleep", "").length() == 0) return;
 		try {
 			final int seconds = 1000 * Integer.parseInt(sp.getString("sleep", "90"));
-			new CountDownTimer(seconds,seconds) {
+			timer = new CountDownTimer(seconds,seconds) {
 				public void onTick(long millisUntilFinished) {}
-				public void onFinish() { stop(); }
+				public void onFinish() { stop(true); }
 			}.start();
 		} catch (NumberFormatException e) {
 		}
@@ -157,9 +158,10 @@ public class MainActivity extends ListActivity {
 		}
 	}
 
-	private void stop() {
+	private void stop(boolean timeFinished) {
 		gen.stop();
 		setCtrl(false);
+		if (!timeFinished) timer.cancel();
 	}
 
 	private void addFooter() {

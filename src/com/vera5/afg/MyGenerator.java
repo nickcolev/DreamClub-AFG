@@ -59,7 +59,6 @@ public class MyGenerator {
 	private int loopEnd(short[] buffer) {
 		int size = buffer.length / 2,
 			end = (size / periodSamples) * periodSamples;
-Log.d("***", "end="+end);
 		if (end == 0) end = size;
 		return end;
 	}
@@ -86,8 +85,6 @@ Log.d("***", "end="+end);
 	protected short[] getSamples(float frequency) {
 		periodSamples = (int)(sampleRate / frequency);
 		int size = buffSize(frequency);
-		//int size = 2 * AudioTrack.getMinBufferSize(sampleRate,AudioFormat.CHANNEL_OUT_MONO,AudioFormat.ENCODING_PCM_16BIT);
-Log.d("***", "f: "+frequency+", periodSamples: "+periodSamples+", bufSize: "+size);
 		short[] buffer = new short[size];
 		int index = 0;
 		for (int i=0; i<size; i++) {
