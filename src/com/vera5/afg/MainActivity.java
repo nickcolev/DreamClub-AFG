@@ -82,6 +82,11 @@ public class MainActivity extends ListActivity {
 	}
 
 	@Override
+	public void onBackPressed() {
+		moveTaskToBack(true);
+	}
+
+	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		getMenuInflater().inflate(R.menu.main,menu);
 		return true;
@@ -89,7 +94,6 @@ public class MainActivity extends ListActivity {
 
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
-		// Handle item selection
 		switch (item.getItemId()) {
 			case R.id.add:
 				startActivity(new Intent(".AddFrequency"));
