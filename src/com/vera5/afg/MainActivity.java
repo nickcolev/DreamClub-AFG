@@ -165,7 +165,10 @@ public class MainActivity extends ListActivity {
 	private void stop(boolean timeFinished) {
 		gen.stop();
 		setCtrl(false);
-		if (!timeFinished) timer.cancel();
+		if (!timeFinished) {
+			timer.cancel();
+			timer = null;
+		}
 	}
 
 	private void addFooter() {
